@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+  
+before_install:
+  - docker build -t paragdhumale/react-test -f ./client/Dockerfile.dev ./client
+   
+script:
+  - docker run -e CI=true paragdhumale/react-test npm test
+
+after_success:
+  - docker build -t paragdhumale/multi-client ./client
+  - docker build -t paragdhumale/multi-nginx ./nginx
+  - docker build -t paragdhumale/multi-server ./server
+  - docker build -t paragdhumale/multi-worker ./worker
+  
+#log in inot docker CLI
+  - echo "$DOC_PWD" | docker login -u "$DOC_ID" --password-stdin
+#Take those images and push to docker hub
+  - docker push paragdhumale/multi-client
+  - docker push paragdhumale/multi-nginx
+  - docker push paragdhumale/multi-server
+  - docker push paragdhumale/multi-worker  
