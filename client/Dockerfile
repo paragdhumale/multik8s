@@ -7,7 +7,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm rn build
+RUN npm run build
 
 FROM nginx
 EXPOSE 3000
