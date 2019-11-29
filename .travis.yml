@@ -20,4 +20,17 @@ after_success:
   - docker push paragdhumale/multi-client
   - docker push paragdhumale/multi-nginx
   - docker push paragdhumale/multi-server
-  - docker push paragdhumale/multi-worker  
+  - docker push paragdhumale/multi-worker
+  
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-us-east-2-840791273739"
+  bucket_path: "multi-docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY  
